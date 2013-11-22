@@ -1,0 +1,35 @@
+        <table class="table table-stripped table-bordered table-hover table-round trktbl">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Time</th>
+              <th>Monday</th>
+              <th>Tuesday</th>
+              <th>Wednesday</th>
+              <th>Thursday</th>
+              <th>Friday</th>
+              <th>Saturday</th>
+              <th>Sunday</th>
+            </thead>
+
+            <tbody>
+              <tr class="trkcloneable">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+
+              <tr class="danger trkblankrow">
+                <td></td>
+                <td></td>
+                <td colspan="7" class="text-center">No tasks tracked, yet</td>
+              </tr>
+
+            </tbody>
+          </table>

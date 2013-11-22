@@ -1,0 +1,42 @@
+<div class="modal fade" id="timer">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="modal-title" id="timertile">Timing Task</div>
+      </div>
+
+      <div class="modal-body">
+        <div class="trktimer">
+
+          <div class="trkloop1">
+            <div class="trkindicator">&bull;</div>
+            <div class="trkloop2">
+
+              <div class="trkclock">
+                <div class="trktm trkdd">0d</div>
+                <div class="trktm trkhm">00:00</div>
+                <div class="trktm trkss">0s</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <form action="#" class="trktaskpick">
+          <select name="trkcurtask" disabled="disabled">
+            <option value="" class="trknotasks">No Tasks defined</option>
+          </select>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-success"
+          id="timerstart">Start</button>
+        <button type="button" class="btn btn-lg btn-danger"
+          id="timerstop">Stop</button>
+      </div>
+
+    </div>
+  </div>
+</div>

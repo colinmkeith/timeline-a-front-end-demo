@@ -1,0 +1,11 @@
+        <div class="text-center">
+          <div class="btn-group text-center trkaddrow">
+            <button id="showtimer"  class="btn btn-success btn-lg"
+              data-toggle="modal" data-target="#timer"
+              data-keyboard="false" data-backdrop="static">Start Timer</button>
+            <!--
+            <button id="manual" class="btn btn-primary">Add Time Manually</button>
+            <button id="tasks"  class="btn btn-primary">Manage Tasks</button>
+            -->
+          </div>
+        </div>
