@@ -1,0 +1,154 @@
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+/* Wrapper for page content to push down footer */
+.pgwrap {
+  min-height: 100%;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -60px;
+}
+
+/* Set the fixed height of the footer here */
+.ftpush,
+.footer {
+  height: 60px;
+}
+.footer {
+  background-color: #ddd;
+  margin-top: -60px;
+  font-size: small;
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+  .footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+body {
+  background: #ddd url("/images/perldancer-bg.jpg") no-repeat top left;
+}
+
+a  {color: #03c}
+
+.pd-header a  {color: #fff; }
+
+.pd-content {
+  background-color: #fff;
+  border: 3px solid #aaa;
+  border-top: none;
+}
+
+.pd-mainheader, .about, .getting-started {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+
+.pd-mainheader {
+  background:url("/images/perldancer.jpg") no-repeat scroll left top transparent;
+  height: 64px;
+  padding: 2px 0 0 70px;
+  margin: 5px 0;
+}
+
+.pd-title {
+  margin: 5px 0;
+  font-size: 28px;
+}
+
+.pd-subtitle {
+  font-size: small;
+  margin: 0;
+}
+
+.pd-subtitle {
+  color: #888;
+}
+
+.pd-app-env dt {
+  font-weight: 400;
+}
+
+dl code {
+  white-space: pre-wrap;
+}
+
+.about-content {
+  border: 1px solid #fc0;
+  color: #333;
+}
+
+.about-content dl {
+  margin: 0 0 5px;
+}
+
+.about-content dt {
+  text-align: left;
+  margin-left: 5px;
+  width: 180px;
+}
+
+.getting-started {
+  border-top: 1px solid #ccc;
+  padding-top: 15px;
+}
+
+
+.pd-navtitle {
+  font-size: 14px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+.pd-callout {
+  background-color: #F4F8FA;
+}
+
+.pd-header .navbar,
+.pd-navbar-collapse,
+.pd-header .navbar-brand {
+  background-color: #2F83BC;
+  color: #fff;
+}
+
+.pd-header {
+  border: 0 solid #005089;
+  border-bottom-width: 3px;
+}
+
+.pd-header .navbar {
+  margin-bottom: 0;
+  border: 0;
+}
+
+.pd-header .dropdown-toggle:hover, .pd-header .open > a, .pd-header .open > a:hover, .pd-header .open > a:focus {
+  background-color: #489CD5;
+}
+
+.pd-tune {
+  margin-left: -20px;
+}
+
+.pdtune-subtitle {
+  font-size: 18px;
+}
+
+.pd-header .nav .caret {
+  border-top-color: #fff;
+  border-bottom-color: #fff;
+}
+
+.trktbl th:nth-child(8),
+.trktbl th:nth-child(9),
+.trktbl td:nth-child(8),
+.trktbl td:nth-child(9) {}
+  background-color: red;
+}
