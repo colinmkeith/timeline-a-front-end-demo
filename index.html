@@ -39,12 +39,17 @@
   <div class="container">
     <div class="row">
       <div class="md-col-10 md-col-offset-1 well">
-        <div class="text-center trkaddrow">
-          <button id="timer" class="btn btn-primary">Start Timer</button>
-          <button id="manual" class="btn btn-secondary">Add Time Manually</button>
+        <div class="text-center">
+          <div class="btn-group text-center trkaddrow">
+            <button id="timer"  class="btn btn-success">Start Timer</button>
+            <!--
+            <button id="manual" class="btn btn-primary">Add Time Manually</button>
+            <button id="tasks"  class="btn btn-primary">Manage Tasks</button>
+            -->
+          </div>
         </div>
 
-        <table   class="table table-stripped table-bordered table-rounded trktbl">
+        <table   class="table table-stripped table-bordered table-hover table-round trktbl">
           <thead>
             <tr>
               <th>Task</th>
@@ -56,46 +61,46 @@
               <th>Friday</th>
               <th>Saturday</th>
               <th>Sunday</th>
-          </thead>
+            </thead>
 
-          <tbody>
-            <tr class="trkcloneable">
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
+            <tbody>
+              <tr class="trkcloneable">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
 
-            <tr class="trkblankrow">
-              <td></td>
-              <td></td>
-              <td colspan="7" class="text-center">No tasks tracked, yet</td>
-            </tr>
+              <tr class="danger trkblankrow">
+                <td></td>
+                <td></td>
+                <td colspan="7" class="text-center">No tasks tracked, yet</td>
+              </tr>
 
-          </tbody>
-        </table>
+            </tbody>
+          </table>
 
+        </div>
       </div>
     </div>
+
   </div>
 
-</div>
+  <div class="ftpush"></div>
 
-<div class="ftpush"></div>
+  <footer class="footer">
+    <div class="text-center">
+      Time Tracker v0.0.1
+    </div>
+  </footer>
 
-<footer class="footer">
-  <div class="text-center">
-    Time Tracker v0.0.1
-  </div>
-</footer>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min.js"></script>
 
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min.js"></script>
-
-</body>
-</html>
+  </body>
+  </html>
