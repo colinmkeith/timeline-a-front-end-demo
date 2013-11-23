@@ -206,12 +206,10 @@ dl code {
 
 
 .trkindicator-animate {
-  animation: trkAnimation 20s 10 linear;
-/*
-  -webkit-animation: trkAnimation 60s 10 linear;
-  -moz-animation: trkAnimation 60s 10 linear;
-  -o-animation: trkAnimation 60s 10 linear;
-*/
+  animation: trkAnimation 60s 1 linear;
+  -webkit-animation: trkAnimation 60s 1 linear;
+  -moz-animation: trkAnimation 60s 1 linear;
+  -o-animation: trkAnimation 60s 1 linear;
 }
 
 .trkindicator {

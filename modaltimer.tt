@@ -31,10 +31,8 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-lg btn-success"
-          id="timerstart">Start</button>
-        <button type="button" class="btn btn-lg btn-danger"
-          id="timerstop">Stop</button>
+        <button type="button" class="btn btn-lg btn-success trktimerstart">Start</button>
+        <button type="button" class="btn btn-lg btn-danger trktimerstop">Stop</button>
       </div>
 
     </div>
