@@ -25,10 +25,10 @@
                 <td></td>
               </tr>
 
-              <tr class="danger trkblankrow">
+              <tr class="trkblankrow">
                 <td></td>
                 <td></td>
-                <td colspan="7" class="text-center">No tasks tracked, yet</td>
+                <td colspan="7" class="text-center trknotasks danger">No tasks tracked, yet</td>
               </tr>
 
             </tbody>

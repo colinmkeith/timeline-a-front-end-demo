@@ -23,18 +23,40 @@
 
         </div>
 
-        <form action="#" class="trktaskpick">
-          <select name="trkcurtask" disabled="disabled">
-            <option value="" class="trknotasks">No Tasks defined</option>
-          </select>
-        </form>
-      </div>
+        <form action="#" class="text-center trktaskpick">
+          <div class="form-group">
+            <label for="trkcurtask">
+              <select name="trkcurtask" class="form-control trkcurtask"
+                id="trkcurtask" disabled="disabled">
+                <option value="#new" class="trknewtasks">Add New Task</option>
+              </select>
+            </label>
+          </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-lg btn-success trktimerstart">Start</button>
-        <button type="button" class="btn btn-lg btn-danger trktimerstop">Stop</button>
-      </div>
+          <div class="well trknewtaskgroup" style="display: none">
+            <div class="form-group">
+              <input name="trknewtask" class="form-control trknewtask"
+              id="trknewtask" placeholder="Enter Task Name">
 
+              <div class="form-group text-right">
+                <input type="submit" class="btn btn-primary" name="submit"
+                value="Add New Task">
+              </div>
+            </div>
+
+
+          </form>
+        </div>
+
+        <div class="modal-footer">
+
+          <div>
+            <button type="button" class="btn btn-lg btn-success trktimerstart">Start</button>
+            <button type="button" class="btn btn-lg btn-danger trktimerstop">Stop</button>
+          </div>
+
+        </div>
+
+      </div>
     </div>
   </div>
-</div>

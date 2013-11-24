@@ -158,6 +158,15 @@ dl code {
   background-color: #FCF8E3;
 }
 
+.table > tbody > tr.trkblankrow > td {
+  height: 6em;
+  vertical-align: middle;
+}
+
+.trkcloneable {
+  display: none;
+}
+
 .trkaddrow {
   margin-bottom: 10px;
 }
@@ -198,6 +207,8 @@ dl code {
 
 #timer .modal-dialog {
   width: 300px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 #timer .modal-footer {
@@ -241,4 +252,24 @@ dl code {
   to { -o-transform: rotate(410deg); }
 }
 
+
+.trktaskpick {
+   margin: 20px auto -10px;
+}
+
+
+.trktaskpick .select2-container {
+  max-width: 240px;
+}
+
+.trknewtaskgroup {
+  padding: 0 3px;
+  border: 1px solid #ddd;
+  width: 242px;
+  margin: -20px auto 0;
+}
+
+.trknewtaskgroup form-group {
+  margin-bottom: 0;
+}
 
