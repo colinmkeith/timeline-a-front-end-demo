@@ -257,9 +257,8 @@ dl code {
    margin: 20px auto -10px;
 }
 
-
-.trktaskpick .select2-container {
-  max-width: 240px;
+.trkcurtask {
+  width: 240px;
 }
 
 .trknewtaskgroup {
@@ -269,7 +268,11 @@ dl code {
   margin: -20px auto 0;
 }
 
-.trknewtaskgroup form-group {
+.trktaskpick .form-group {
+  padding: 0;
+}
+
+.trknewtaskgroup .form-group {
   margin-bottom: 0;
 }
 

@@ -2,13 +2,34 @@ jQuery.noConflict();
 (function($) {
   $(function() {
 
+    var trkTaskManager = function() {
+      this.tasks = [];
+
+      this.newTaskPrompt = function(ev) {
+        var srcEl = $(ev.target);
+        ev.preventDefault();
+        ev.stopPropagation();
+        $('.trknewtaskgroup').show();
+        $('#trknewtask').focus();
+      };
+
+      this.addTask = function(taskName, selectEl) {
+        if($.inArray(taskName, this.tasks) !== -1) {
+          return 0;
+        }
+
+        this.tasks.push(taskName);
+        selectEl.append($('<option>', {
+          value : taskName,
+          text  : taskName
+        })).removeAttr('disabled');
+      };
+
+    };
+
     var trkTimer = function() {
       this.ANIMATE_CLASS = 'trkindicator-animate';
       this.isRunning = 0;
-      this.taskCounter = 0;
-      this.anonTask = function() {
-        return 'task' + (this.taskCounter++);
-      };
 
       this.start = function() {
         if(this.isRunning) {
@@ -48,37 +69,22 @@ jQuery.noConflict();
         var scope = this;
         this.timeHdl = setInterval(function() { func.apply(scope); }, 1000);
       };
-
-      this.newTask = function(ev) {
-        var srcEl = $(ev.target);
-        ev.preventDefault();
-        ev.stopPropagation();
-        (function(srcEl) {
-          setTimeout(function() { srcEl.select2('close'); }, 100);
-        })(srcEl);
-        $('.trknewtaskgroup').show();
-        $('#trknewtask').focus();
-      };
     };
 
     $(document).ready(function($) {
       var hasTasks = $("select.trkcurtask option:not('.trknewtasks')").length;
       var timer = new trkTimer();
+      var taskMan = new trkTaskManager();
 
-      $('.trkcurtask').select2({
-        width       : '240px',
-        placeholder : 'Select Task'
-      })
-      .on('select2-selecting', function(ev) {
-        if(e.val === '#new') {
-          timer.newTask(ev);
+      $('.trkcurtask').on('click', function(ev) {
+        if(ev.val === '#new') {
+          taskMan.newTaskPrompt(ev);
         }
       })
-      .on('select2-focus', function(ev) {
-        var srcEl = $(ev.target);
-        var options = srcEl.select2('data').element;
+      .on('focus', function(ev) {
+        var options = $(ev.target).find('option');
         if(options.length < 2) {
-          timer.newTask(ev);
+          taskMan.newTaskPrompt(ev);
         }
       });
 
@@ -97,8 +103,20 @@ jQuery.noConflict();
       $('.trktimerstop').click(function(ev) {
         ev.preventDefault();
         ev.stopPropagation();
-        timer.stop($('.trktaskpick').select2().value);
+        timer.stop($('.trktaskpick').val());
       });
+
+      $('.trktaskpick').on('submit', function(ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        taskMan.addTask($('#trknewtask').val(), $('#trkcurtask'));
+
+        // Maybe we should leave it?
+        $('#trknewtask').val('');
+
+        $('.trknewtaskgroup').hide();
+      });
+
     });
 
   });

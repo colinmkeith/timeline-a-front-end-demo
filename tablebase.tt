@@ -10,26 +10,27 @@
               <th>Friday</th>
               <th>Saturday</th>
               <th>Sunday</th>
-            </thead>
+            </tr>
+          </thead>
 
-            <tbody>
-              <tr class="trkcloneable">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
+          <tbody>
+            <tr class="trkcloneable">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
 
-              <tr class="trkblankrow">
-                <td></td>
-                <td></td>
-                <td colspan="7" class="text-center trknotasks danger">No tasks tracked, yet</td>
-              </tr>
+            <tr class="trkblankrow">
+              <td></td>
+              <td></td>
+              <td colspan="7" class="text-center trknotasks danger">No tasks tracked, yet</td>
+            </tr>
 
-            </tbody>
-          </table>
+          </tbody>
+        </table>

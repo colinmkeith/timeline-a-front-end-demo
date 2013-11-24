@@ -25,12 +25,12 @@
 
         <form action="#" class="text-center trktaskpick">
           <div class="form-group">
-            <label for="trkcurtask">
-              <select name="trkcurtask" class="form-control trkcurtask"
-                id="trkcurtask" disabled="disabled">
-                <option value="#new" class="trknewtasks">Add New Task</option>
-              </select>
-            </label>
+            <select name="trkcurtask" class="form-control trkcurtask"
+              id="trkcurtask">
+              <option value="#new" class="trknewtasks">Add New Task</option>
+              <option value="test1">Test1</option>
+              <option value="test2">Test2</option>
+            </select>
           </div>
 
           <div class="well trknewtaskgroup" style="display: none">
@@ -43,20 +43,20 @@
                 value="Add New Task">
               </div>
             </div>
-
-
-          </form>
-        </div>
-
-        <div class="modal-footer">
-
-          <div>
-            <button type="button" class="btn btn-lg btn-success trktimerstart">Start</button>
-            <button type="button" class="btn btn-lg btn-danger trktimerstop">Stop</button>
           </div>
 
+        </form>
+      </div>
+
+      <div class="modal-footer">
+
+        <div>
+          <button type="button" class="btn btn-lg btn-success trktimerstart">Start</button>
+          <button type="button" class="btn btn-lg btn-danger trktimerstop">Stop</button>
         </div>
 
       </div>
+
     </div>
   </div>
+</div>
