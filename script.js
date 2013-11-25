@@ -22,7 +22,8 @@ jQuery.noConflict();
         selectEl.append($('<option>', {
           value : taskName,
           text  : taskName
-        })).removeAttr('disabled');
+        })).removeAttr('disabled')
+           .find('option').last()[0].selected = true;
       };
 
     };
@@ -73,13 +74,29 @@ jQuery.noConflict();
 
     $(document).ready(function($) {
       var hasTasks = $("select.trkcurtask option:not('.trknewtasks')").length;
-      var timer = new trkTimer();
-      var taskMan = new trkTaskManager();
+      var timer    = new trkTimer();
+      var taskMan  = new trkTaskManager();
+/* DEBUG */
+window.taskMan = taskMan;
+window.timer   = timer;
+      $('.trkcurtask').on('click keyup', function(ev) {
+        console.log(ev);
+        var targ = ev.target;
+        if(targ) {
+          if(targ.nodeName === 'SELECT') {
+            if(targ.options.length === 1 ||
+              (ev.type === 'keyup' && ev.keyCode === 13 && $(targ).val() === '#new')) {
+              taskMan.newTaskPrompt(ev);
+            }
+          }
 
-      $('.trkcurtask').on('click', function(ev) {
-        if(ev.val === '#new') {
-          taskMan.newTaskPrompt(ev);
+          else if(targ.nodeName === 'OPTION' && $(targ).val() === '#new') {
+            taskMan.newTaskPrompt(ev);
+          }
         }
+      })
+      .on('change', function(ev) {
+        ev.target.blur();
       })
       .on('focus', function(ev) {
         var options = $(ev.target).find('option');

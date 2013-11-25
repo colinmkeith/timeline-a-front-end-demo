@@ -257,15 +257,10 @@ dl code {
    margin: 20px auto -10px;
 }
 
-.trkcurtask {
-  width: 240px;
-}
-
 .trknewtaskgroup {
   padding: 0 3px;
   border: 1px solid #ddd;
-  width: 242px;
-  margin: -20px auto 0;
+  margin: -16px auto 0;
 }
 
 .trktaskpick .form-group {
