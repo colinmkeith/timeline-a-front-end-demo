@@ -171,9 +171,12 @@ dl code {
   margin-bottom: 10px;
 }
 
-.trkss, .trkdd { font-size: small; margin: 40px 10px 0 10px; }
+.trkss, .trkdd { font-size: 15px; margin: 45px 10px 0 10px; }
+.trkss { margin-left: 0; }
 .trkhm { font-size: 40px; }
 .trktm { float: left; color: #800; }
+
+.trkdd { margin-right: 0; }
 
 .trktimer {
   width: 180px;

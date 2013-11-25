@@ -59,7 +59,7 @@ jQuery.noConflict();
         }
 
         this.isRunning = 1;
-        this.startTime = new Date().getTime();
+        this.startTime = new Date().getTime() / 1000; /* Use seconds */
         this.timer();
         $('.trkindicator').addClass(this.ANIMATE_CLASS);
         $('.trkdd').text('0d');
@@ -75,15 +75,38 @@ jQuery.noConflict();
         $('.trkindicator').css({transform : $('.trkindicator').css('transform') });
         $('.trkindicator').removeClass(this.ANIMATE_CLASS);
 
-        var stopTime = new Date().getTime();
+        var stopTime = new Date().getTime() / 1000; /* Use seconds */
         return this.startTime - stopTime;
       };
 
       this.updateTime = function() {
-        var elapsedTime = new Date().getTime() - this.startTime;
-        elapsedTime /= 1000;
-        var ss = parseInt(60 * ((elapsedTime / 60) - parseInt(elapsedTime / 60, 10)));
-        $('.trkss').text(ss);
+        var elapsedTime = (new Date(new Date().getTime()- (this.startTime * 1000))).getTime() / 1000;
+        var dd = Math.floor((elapsedTime / 86400) % 60);
+        var hh = Math.floor((elapsedTime / 3600) % 60);
+        var mm = Math.floor((elapsedTime / 60) % 60);
+        var ss = Math.floor((elapsedTime) % 60);
+
+        if(mm !== this.oldminute) {
+          this.oldminute = mm;
+          $('.trkindicator').removeClass(this.ANIMATE_CLASS);
+          $('.trkindicator').addClass(this.ANIMATE_CLASS);
+        }
+
+        if(hh < 10) {
+          hh = '0' + hh;
+        }
+
+        if(mm < 10) {
+          mm = '0' + mm;
+        }
+
+        if(ss < 10) {
+          ss = '0' + ss;
+        }
+
+        $('.trkss').text(ss + 's');
+        $('.trkdd').text(dd + 'd');
+        $('.trkhm').text(hh + ':' + mm);
       };
 
       this.timer = function() {
