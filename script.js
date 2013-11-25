@@ -25,6 +25,26 @@ jQuery.noConflict();
           text  : taskName
         })).removeAttr('disabled')
            .find('option').last()[0].selected = true;
+
+        if(this.tasks.length === 0) {
+          $('.trkblankrow').show();
+        } else {
+          $('.trkblankrow').hide();
+        }
+
+        var trkClone = $('.trkcloneable').clone();
+        var tds = trkClone.find('td');
+        $(tds[0]).text(taskName).attr('title', taskName);
+        $(tds[1]).text('0m');
+        trkClone.removeClass('trkcloneable').addClass('trktask');
+
+        var tbody = $('.trktbl tbody');
+        var insBefore = tbody.find('.trktask').first();
+        if(insBefore.length) {
+          $(insBefore).insertBefore(trkClone);
+        } else {
+          $(tbody).append(trkClone);
+        }
       };
 
     };
