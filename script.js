@@ -105,7 +105,7 @@ window.timer   = timer;
         if(targ) {
           if(targ.nodeName === 'SELECT') {
             if(targ.options.length === 1 ||
-              (ev.type === 'keyup' && ev.keyCode === 13 && $(targ).val() === '#new')) {
+              (ev.type === 'keyup' && ev.key === 'Enter' && $(targ).val() === '#new')) {
               taskMan.newTaskPrompt(ev);
             }
           }
@@ -159,6 +159,12 @@ window.timer   = timer;
       $(document).on('shown.bs.modal', function(ev) {
         if($('.trktaskpick').find('option').length < 2) {
           taskMan.newTaskPrompt();
+        }
+      });
+
+      $('.trknewtaskgroup').on('keyup', function(ev) {
+        if(ev.key === 'Esc') {
+          $('.trknewtaskgroup').hide();
         }
       });
 
