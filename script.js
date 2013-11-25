@@ -6,9 +6,10 @@ jQuery.noConflict();
       this.tasks = [];
 
       this.newTaskPrompt = function(ev) {
-        var srcEl = $(ev.target);
-        ev.preventDefault();
-        ev.stopPropagation();
+        if(ev) {
+          ev.preventDefault();
+          ev.stopPropagation();
+        }
         $('.trknewtaskgroup').show();
         $('#trknewtask').focus();
       };
@@ -80,7 +81,6 @@ jQuery.noConflict();
 window.taskMan = taskMan;
 window.timer   = timer;
       $('.trkcurtask').on('click keyup', function(ev) {
-        console.log(ev);
         var targ = ev.target;
         if(targ) {
           if(targ.nodeName === 'SELECT') {
@@ -132,6 +132,14 @@ window.timer   = timer;
         $('#trknewtask').val('');
 
         $('.trknewtaskgroup').hide();
+      });
+
+      /* Helper to make Timer prompt for tasks when first started */
+      /* Work around bug in https://github.com/twbs/bootstrap/commit/4b1a6e11326fee97a5ebc194be040086f40f97fb */
+      $(document).on('shown.bs.modal', function(ev) {
+        if($('.trktaskpick').find('option').length < 2) {
+          taskMan.newTaskPrompt();
+        }
       });
 
     });
