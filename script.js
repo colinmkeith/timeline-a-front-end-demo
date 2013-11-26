@@ -74,7 +74,10 @@ jQuery.noConflict();
             if(typeof(elapsedData[k+1]) === 'undefined') {
               elapsedData[k+1] = 0;
             }
-            elapsedData[k+1] += sumData[k].sum;
+
+            if(typeof(sumData[k]) !== 'undefined') {
+              elapsedData[k+1] += sumData[k].sum;
+            }
           }
 
           for(k=0; k<elapsedData.length; k++) {
@@ -253,7 +256,7 @@ jQuery.noConflict();
           var tbody = $('.trktbl tbody');
           var insBefore = tbody.find('.trktask').first();
           if(insBefore.length) {
-            $(insBefore).insertBefore(trkClone);
+            trkClone.insertBefore(insBefore);
           } else {
             $(tbody).append(trkClone);
           }
@@ -283,6 +286,8 @@ jQuery.noConflict();
       };
 
       this.start = function() {
+        $('.trktimerstart').addClass('disabled');
+        $('.trktimerstop').removeClass('disabled');
         if(this.isRunning) {
           return;
         }
@@ -297,6 +302,8 @@ jQuery.noConflict();
       };
 
       this.stop = function(taskMan) {
+        $('.trktimerstart').removeClass('disabled');
+        $('.trktimerstop').addClass('disabled');
         this.isRunning = 0;
         if(this.timeHdl) {
           clearInterval(this.timeHdl);
