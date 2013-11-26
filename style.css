@@ -239,6 +239,9 @@ dl code {
   font-size: 25px;
   color: #f00;
   transform: rotate(50deg);
+  -webkit-transform: rotate(50deg);
+  -moz-transform: rotate(50deg);
+  -o-transform: rotate(50deg);
 }
 
 @keyframes trkAnimation {
