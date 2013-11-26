@@ -470,9 +470,10 @@ jQuery.noConflict();
           return;
         }
         timer.start();
+        $('.trktimestop').focus();
 
         if(tour._current === 4) {
-          setTimeout(function() { tour.next(); }, 1000)
+          setTimeout(function() { tour.next(); }, 1000);
         }
       });
 
@@ -480,6 +481,7 @@ jQuery.noConflict();
         ev.preventDefault();
         ev.stopPropagation();
         timer.stop(taskMan);
+        $('.trktimestop').blur();
       });
 
       $('.trktaskpick').on('submit', function(ev) {
@@ -607,7 +609,7 @@ jQuery.noConflict();
         }
 
       ]);
-      tour.start(true);
+      tour.start();
       /* DEBUG */
 window.tour = tour;
 
