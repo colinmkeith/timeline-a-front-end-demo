@@ -266,21 +266,21 @@ dl code {
 }
 
 @keyframes trkAnimation {
-  from { transform: rotate(50deg) !important;  }
-  to   { transform: rotate(410deg) !important; }
+  from { transform: rotate(50deg);  }
+  to   { transform: rotate(410deg); }
 }
 
 @-webkit-keyframes trkAnimation {
-  from { -webkit-transform: rotate(50deg) !important; }
-  to { -webkit-transform: rotate(410deg) !important; }
+  from { -webkit-transform: rotate(50deg); }
+  to { -webkit-transform: rotate(410deg); }
 }
 @-moz-keyframes trkAnimation {
-  from { -moz-transform: rotate(50deg) !important; }
-  to { -moz-transform: rotate(410deg) !important; }
+  from { -moz-transform: rotate(50deg); }
+  to { -moz-transform: rotate(410deg); }
 }
 @-o-keyframes trkAnimation {
-  from { -o-transform: rotate(50deg) !important; }
-  to { -o-transform: rotate(410deg) !important; }
+  from { -o-transform: rotate(50deg); }
+  to { -o-transform: rotate(410deg); }
 }
 
 
