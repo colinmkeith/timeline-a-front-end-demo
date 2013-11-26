@@ -147,6 +147,27 @@ dl code {
 }
 
 /* Task/Time */
+.trktbl {
+  width: auto;
+  margin: auto;
+}
+
+.trktbl td {
+  background-color: #f0f0f0;
+}
+
+.trktbl tr th {
+  width: 75px;
+}
+
+.trktbl tr > th {
+  max-width: 150px;
+}
+
+.trktbl tr > td {
+  overflow: hidden;
+}
+
 .trktbl tr :nth-child(1),
 .trktbl tr :nth-child(2) {
   background-color: #e6e6e6;
@@ -239,6 +260,9 @@ dl code {
   font-size: 25px;
   color: #f00;
   transform: rotate(50deg);
+  -webkit-transform: rotate(50deg);
+  -moz-transform: rotate(50deg);
+  -o-transform: rotate(50deg);
 }
 
 @keyframes trkAnimation {
@@ -277,4 +301,19 @@ dl code {
 .trknewtaskgroup .form-group {
   margin-bottom: 0;
 }
+
+.close[disabled] {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.tour-tour .btn-group .btn {
+  display: none;
+}
+
+/* above modal */
+.tour-tour {
+  z-index: 2000;
+}
+
 
