@@ -2,8 +2,64 @@ jQuery.noConflict();
 (function($) {
   $(function() {
 
-    var trkTaskManager = function() {
-      this.tasks = [];
+    var trkTaskManager = function(storedTasks) {
+      this.tasks = storedTasks || {};
+
+      this.currentTask = function() {
+        return $('.trkcurtask').val();
+      };
+
+      this.completeTask = function(start, stop) {
+        this.storeTask(this.currentTask(), start, stop);
+      };
+
+      this.setTask = function(taskName, start, stop) {
+        if(!this.tasks[taskName]) {
+          this.tasks[taskName] = [];
+        }
+
+        this.tasks[taskName].push([start, stop]);
+      };
+
+      this.getTasks = function() {
+        return this.tasks;
+      };
+
+      this.getTask = function(taskName) {
+        if(!this.tasks || !this.tasks[taskName]) {
+          return null;
+        }
+        return this.tasks[taskName];
+      };
+
+      this.sumTask = function(taskName, startRange, stopRange, bySize) {
+        var taskData = this.getTask(taskName);
+        if(taskData === null || !taskData.length) {
+          return 0;
+        }
+
+        var ret = {};
+        taskData.each(function(el, idx){
+          if(el[0] < startRange && el[1] > stopRange) {
+            return;
+          }
+
+          if(el[0]< startRange) {
+            el[0] = startRange;
+          }
+
+          if(el[1] > endRange) {
+            el[1] = endRange;
+          }
+        });
+
+        return rangeData;
+      };
+
+      this.storeTask = function(taskName, start, stop) {
+        this.setTask(taskName, start, stop);
+        store.set('trktask', this.getTasks());
+      };
 
       this.newTaskPrompt = function(ev) {
         if(ev) {
@@ -15,16 +71,17 @@ jQuery.noConflict();
       };
 
       this.addTask = function(taskName, selectEl) {
-        if($.inArray(taskName, this.tasks) !== -1) {
-          return 0;
+        if(!this.tasks[taskName]) {
+          this.tasks[taskName] = [];
         }
 
-        this.tasks.push(taskName);
-        selectEl.append($('<option>', {
-          value : taskName,
-          text  : taskName
-        })).removeAttr('disabled')
-           .find('option').last()[0].selected = true;
+        if(selectEl.find('option[value="' + taskName + '"]').length === 0) {
+          selectEl.append($('<option>', {
+            value : taskName,
+            text  : taskName
+          })).removeAttr('disabled')
+          .find('option').last()[0].selected = true;
+        }
 
         if(this.tasks.length === 0) {
           $('.trkblankrow').show();
@@ -47,6 +104,13 @@ jQuery.noConflict();
         }
       };
 
+      /* Initialize */
+      var selectEl = $('.trkcurtask');
+      var t = this;
+      $.each(this.tasks, function(key, val) {
+        t.addTask(key, selectEl);
+      });
+
     };
 
     var trkTimer = function() {
@@ -59,7 +123,7 @@ jQuery.noConflict();
         }
 
         this.isRunning = 1;
-        this.startTime = new Date().getTime() / 1000; /* Use seconds */
+        this.startTime = Math.floor(new Date().getTime() / 1000); /* Use seconds */
         this.timer();
         $('.trkindicator').addClass(this.ANIMATE_CLASS);
         $('.trkdd').text('0d');
@@ -67,7 +131,7 @@ jQuery.noConflict();
         $('.trkss').text('0s');
       };
 
-      this.stop = function() {
+      this.stop = function(taskMan) {
         this.isRunning = 0;
         if(this.timeHdl) {
           clearInterval(this.timeHdl);
@@ -75,12 +139,12 @@ jQuery.noConflict();
         $('.trkindicator').css({transform : $('.trkindicator').css('transform') });
         $('.trkindicator').removeClass(this.ANIMATE_CLASS);
 
-        var stopTime = new Date().getTime() / 1000; /* Use seconds */
-        return this.startTime - stopTime;
+        var stopTime = Math.floor(new Date().getTime() / 1000); /* Use seconds */
+        taskMan.completeTask(this.startTime, stopTime);
       };
 
       this.updateTime = function() {
-        var elapsedTime = (new Date(new Date().getTime()- (this.startTime * 1000))).getTime() / 1000;
+        var elapsedTime = Math.floor((new Date(new Date().getTime()- (this.startTime * 1000))).getTime() / 1000);
         var dd = Math.floor((elapsedTime / 86400) % 60);
         var hh = Math.floor((elapsedTime / 3600) % 60);
         var mm = Math.floor((elapsedTime / 60) % 60);
@@ -119,18 +183,18 @@ jQuery.noConflict();
     $(document).ready(function($) {
       var hasTasks = $("select.trkcurtask option:not('.trknewtasks')").length;
       var timer    = new trkTimer();
-      var taskMan  = new trkTaskManager();
-/* DEBUG */
-window.taskMan = taskMan;
-window.timer   = timer;
+      var taskMan  = new trkTaskManager(store.get('trktask'));
+      /* DEBUG */
+      window.taskMan = taskMan;
+      window.timer   = timer;
       $('.trkcurtask').on('click keyup', function(ev) {
         var targ = ev.target;
         if(targ) {
           if(targ.nodeName === 'SELECT') {
             if(targ.options.length === 1 ||
               (ev.type === 'keyup' && ev.key === 'Enter' && $(targ).val() === '#new')) {
-              taskMan.newTaskPrompt(ev);
-            }
+                taskMan.newTaskPrompt(ev);
+              }
           }
 
           else if(targ.nodeName === 'OPTION' && $(targ).val() === '#new') {
@@ -163,7 +227,7 @@ window.timer   = timer;
       $('.trktimerstop').click(function(ev) {
         ev.preventDefault();
         ev.stopPropagation();
-        timer.stop($('.trktaskpick').val());
+        timer.stop(taskMan);
       });
 
       $('.trktaskpick').on('submit', function(ev) {
