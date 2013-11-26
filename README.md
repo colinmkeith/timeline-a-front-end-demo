@@ -1,4 +1,4 @@
 Time Tracker Demo
 =================
 
-A demo of a UI for a time tracker.
+Timeline: A demo of front-end coding using bootstrap and jQuery.
