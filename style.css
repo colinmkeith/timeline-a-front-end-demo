@@ -147,6 +147,27 @@ dl code {
 }
 
 /* Task/Time */
+.trktbl {
+  width: auto;
+  margin: auto;
+}
+
+.trktbl td {
+  background-color: #f0f0f0;
+}
+
+.trktbl tr th {
+  width: 75px;
+}
+
+.trktbl tr > th {
+  max-width: 150px;
+}
+
+.trktbl tr > td {
+  overflow: hidden;
+}
+
 .trktbl tr :nth-child(1),
 .trktbl tr :nth-child(2) {
   background-color: #e6e6e6;
