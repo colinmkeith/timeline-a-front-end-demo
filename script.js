@@ -520,6 +520,7 @@ jQuery.noConflict();
         }
       });
 
+      store.remove('tour_current_step');
       var tour = new Tour();
 
       /* It is goTo() in newer versions */
