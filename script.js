@@ -32,7 +32,26 @@ jQuery.noConflict();
         return this.tasks[taskName];
       };
 
-      this.sumTask = function(taskName, startRange, stopRange, bySize) {
+      this.sumTasks = function(startRange, stopRange, bySize) {
+        var tbl = $('.trktbl tbody');
+        var dataRows = tbl.find('tr.trktask');
+        var t = this;
+
+        $.each(this.getTasks(), function(taskName) {
+          var summary = t.sumTask(taskName, startRange, stopRange, bySize);
+          var tblRow = $.grep(dataRows, function(el, idx) {
+            return $(el).data('taskname') === taskName;
+          });
+
+          t.addNewRow(tblRow, summary);
+
+          if(!tblRow) {
+            t.addNewRow(taskName, summary);
+          }
+        });
+      };
+
+      this.sumTask = function(taskName, startRange, stopRange) {
         var taskData = this.getTask(taskName);
         if(taskData === null || !taskData.length) {
           return [ 0 ];
@@ -102,9 +121,20 @@ jQuery.noConflict();
         if(typeof(data) === 'undefined') {
           data = [];
         }
-        var trkClone = $('.trkcloneable').clone();
+
+        var trkClone;
+
+        if(typeof(taskName) === 'string') {
+          trkClone = $('.trkcloneable').clone();
+        } else {
+          trkClone = $(taskName);
+        }
+
         var tds = trkClone.find('td');
-        $(tds[0]).text(taskName).attr('title', taskName);
+        if(typeof(taskName) === 'string') {
+          $(tds[0]).text(taskName).attr('title', taskName);
+        }
+
         if(data.length) {
           $.each([0, 1, 2, 3, 4, 5, 6], function(i) {
             if(data[i]) {
@@ -114,16 +144,19 @@ jQuery.noConflict();
         } else {
           $(tds[1]).text('0m');
         }
-        trkClone.removeClass('trkcloneable')
-          .addClass('trktask')
-          .data('taskname', taskName);
 
-        var tbody = $('.trktbl tbody');
-        var insBefore = tbody.find('.trktask').first();
-        if(insBefore.length) {
-          $(insBefore).insertBefore(trkClone);
-        } else {
-          $(tbody).append(trkClone);
+        if(typeof(taskName) === 'string') {
+          trkClone.removeClass('trkcloneable')
+            .addClass('trktask')
+            .data('taskname', taskName);
+
+          var tbody = $('.trktbl tbody');
+          var insBefore = tbody.find('.trktask').first();
+          if(insBefore.length) {
+            $(insBefore).insertBefore(trkClone);
+          } else {
+            $(tbody).append(trkClone);
+          }
         }
       };
 
@@ -134,6 +167,7 @@ jQuery.noConflict();
         t.addTask(key, selectEl);
       });
 
+      this.sumTasks();
     };
 
     var trkTimer = function() {
