@@ -45,6 +45,10 @@ jQuery.noConflict();
           return time.toFixed(2).replace(/\.0[0-9]$/, '') + 'm';
         }
 
+        if(time === 0) {
+          return '';
+        }
+
         return time + 's';
       };
 
@@ -63,7 +67,7 @@ jQuery.noConflict();
           var k;
           var summary = t.sumTask(taskName, startRange, dateType);
           var sumData = summary[1];
-              summary = summary[0];
+          summary = summary[0];
           var tblRow = $.grep(dataRows, function(el, idx) {
             return $(el).data('taskname') === taskName;
           });
@@ -121,7 +125,7 @@ jQuery.noConflict();
 
               rangePtr = endOfDay;
             }
-          break;
+            break;
         }
 
         var totalTime = 0;
@@ -161,7 +165,7 @@ jQuery.noConflict();
 
             if(rangeStop <= startTime) {
               /* console.log('check next range'); */
-              break;
+              continue;
             }
 
             if(stopTime > rangeStop) {
@@ -286,9 +290,15 @@ jQuery.noConflict();
       }
 
       if(numOfTasks) {
-        $('.trktimerstart').removeClass('disabled').removeAttr('disabled');
+        $('.trktimerstart').removeClass('disabled')
+          .removeAttr('disabled')
+          .removeAttr('title');
       } else {
-        $('.trktimerstart').addClass('disabled').attr('disabled', 'disabled');
+        $('.trktimerstart').addClass('disabled')
+          .attr({
+            disabled : 'disabled',
+            title    : 'Select Or Enter new Task'
+          });
       }
 
       this.sumTasks();
@@ -307,15 +317,23 @@ jQuery.noConflict();
       };
 
       this.start = function() {
-        $('.trktimerstart').addClass('disabled').attr('disabled', 'disabled');
-        $('.trktimerstop').removeClass('disabled').removeAttr('disabled', 'disabled');
+        $('.trktimerstart').addClass('disabled')
+          .attr({
+            disabled : 'disabled',
+            title    : 'Select Or Enter new Task'
+          });
+        $('.trktimerstop').removeClass('disabled')
+          .removeAttr('disabled')
+          .removeAttr('title');
 
         if(this.isRunning) {
           return;
         }
 
-        $('.trkcurtask').attr('disabled', 'disabled');
-        $('.modal-header .close').attr('disabled', 'disabled');
+        $('.trkcurtask, .modal-header .close').attr({
+          disabled : 'disabled',
+          title    : 'Select Or Enter new Task'
+        });
 
         this.isRunning = 1;
         this.startTime = Math.floor(new Date().getTime() / 1000);
@@ -327,14 +345,21 @@ jQuery.noConflict();
       };
 
       this.stop = function(taskMan) {
-        $('.trktimerstart').removeClass('disabled').removeAttr('disabled', 'disabled');
-        $('.trktimerstop').addClass('disabled').attr('disabled', 'disabled');
+        $('.trktimerstart').removeClass('disabled').removeAttr('disabled');
+        $('.trktimerstop').addClass('disabled')
+          .attr({
+            disabled : 'disabled',
+            title    : 'Select Or Enter new Task'
+          });
+
         this.isRunning = 0;
+
         if(this.timeHdl) {
           clearInterval(this.timeHdl);
         }
-        $('.trkindicator').css({transform : $('.trkindicator').css('transform') });
+
         $('.trkindicator').removeClass(this.ANIMATE_CLASS);
+
         $('.trkcurtask').removeAttr('disabled');
         $('.modal-header .close').removeAttr('disabled');
 
@@ -352,8 +377,8 @@ jQuery.noConflict();
 
         if(mm !== this.oldminute) {
           this.oldminute = mm;
-          $('.trkindicator').removeClass(this.ANIMATE_CLASS);
-          $('.trkindicator').addClass(this.ANIMATE_CLASS);
+          $('.trkindicator').removeClass(this.ANIMATE_CLASS)
+            .addClass(this.ANIMATE_CLASS);
         }
 
         if(hh < 10) {
