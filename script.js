@@ -208,6 +208,10 @@ jQuery.noConflict();
       };
 
       this.addTask = function(taskName, selectEl) {
+        if(taskName === '#new') {
+          return;
+        }
+
         if(!this.tasks[taskName]) {
           this.tasks[taskName] = [];
         }
@@ -435,6 +439,9 @@ jQuery.noConflict();
       })
       .on('change', function(ev) {
         ev.target.blur();
+        if($(ev.target).val() === '#new') {
+          taskMan.newTaskPrompt(ev);
+        }
       })
       .on('focus', function(ev) {
         var options = $(ev.target).find('option');
