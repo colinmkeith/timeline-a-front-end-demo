@@ -34,15 +34,18 @@ jQuery.noConflict();
 
       this.formatTime = function(time) {
         if(time >= 86400) {
+          time /= 86400;
           return time.toFixed(2).replace(/\.0[0-9]$/, '') + 'd';
         }
 
         if(time >= 3600) {
+          time /= 3600;
           return time.toFixed(2).replace(/\.0[0-9]$/, '') + 'h';
         }
 
         if(time >= 60) {
-          return time.toFixed(2).replace(/\.0[0-9]$/, '') + 'm';
+          time /= 60;
+          return Math.round(time) + 'm';
         }
 
         if(time === 0) {
