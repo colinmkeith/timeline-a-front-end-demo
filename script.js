@@ -35,25 +35,31 @@ jQuery.noConflict();
       this.sumTask = function(taskName, startRange, stopRange, bySize) {
         var taskData = this.getTask(taskName);
         if(taskData === null || !taskData.length) {
-          return 0;
+          return [ 0 ];
         }
 
-        var ret = {};
-        taskData.each(function(el, idx){
+        var ret = [ 0 ];
+        $.each(taskData, function(idx, el){
+          /* Not in current date range, not interested */
           if(el[0] < startRange && el[1] > stopRange) {
             return;
           }
 
+          /* cap the start/stop to ranges */
           if(el[0]< startRange) {
             el[0] = startRange;
           }
 
-          if(el[1] > endRange) {
-            el[1] = endRange;
+          if(el[1] > stopRange) {
+            el[1] = stopRange;
           }
+
+          var timeOnTask = el[1] - el[0];
+          ret[0] += timeOnTask;
+          ret.push([el[0], el[1]]);
         });
 
-        return rangeData;
+        return ret;
       };
 
       this.storeTask = function(taskName, start, stop) {
@@ -89,11 +95,28 @@ jQuery.noConflict();
           $('.trkblankrow').hide();
         }
 
+        this.addNewRow(taskName);
+      };
+
+      this.addNewRow = function(taskName, data) {
+        if(typeof(data) === 'undefined') {
+          data = [];
+        }
         var trkClone = $('.trkcloneable').clone();
         var tds = trkClone.find('td');
         $(tds[0]).text(taskName).attr('title', taskName);
-        $(tds[1]).text('0m');
-        trkClone.removeClass('trkcloneable').addClass('trktask');
+        if(data.length) {
+          $.each([0, 1, 2, 3, 4, 5, 6], function(i) {
+            if(data[i]) {
+              $(tds[i+1]).text(data[i]);
+            }
+          });
+        } else {
+          $(tds[1]).text('0m');
+        }
+        trkClone.removeClass('trkcloneable')
+          .addClass('trktask')
+          .data('taskname', taskName);
 
         var tbody = $('.trktbl tbody');
         var insBefore = tbody.find('.trktask').first();
