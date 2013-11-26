@@ -32,18 +32,56 @@ jQuery.noConflict();
         return this.tasks[taskName];
       };
 
-      this.sumTasks = function(startRange, stopRange, bySize) {
+      this.formatTime = function(time) {
+        if(time >= 86400) {
+          return time.toFixed(2).replace(/\.0[0-9]$/, '') + 'd';
+        }
+
+        if(time >= 3600) {
+          return time.toFixed(2).replace(/\.0[0-9]$/, '') + 'h';
+        }
+
+        if(time >= 60) {
+          return time.toFixed(2).replace(/\.0[0-9]$/, '') + 'm';
+        }
+
+        return time + 's';
+      };
+
+      this.sumTasks = function(dateType, dateOffset) {
+        if(!dateType) {
+          dateType = 'week';
+        }
+
+        var startRange = moment().startOf(dateType).format("X");
+
         var tbl = $('.trktbl tbody');
         var dataRows = tbl.find('tr.trktask');
         var t = this;
 
         $.each(this.getTasks(), function(taskName) {
-          var summary = t.sumTask(taskName, startRange, stopRange, bySize);
+          var k;
+          var summary = t.sumTask(taskName, startRange, dateType);
+          var sumData = summary[1];
+              summary = summary[0];
           var tblRow = $.grep(dataRows, function(el, idx) {
             return $(el).data('taskname') === taskName;
           });
 
-          t.addNewRow(tblRow, summary);
+          var elapsedData = [ summary ];
+
+          for(k=0; k<sumData.length; k++) {
+            if(typeof(elapsedData[k+1]) === 'undefined') {
+              elapsedData[k+1] = 0;
+            }
+            elapsedData[k+1] += sumData[k].sum;
+          }
+
+          for(k=0; k<elapsedData.length; k++) {
+            elapsedData[k] = t.formatTime(elapsedData[k]);
+          }
+
+          t.addNewRow(tblRow, elapsedData);
 
           if(!tblRow) {
             t.addNewRow(taskName, summary);
@@ -51,34 +89,96 @@ jQuery.noConflict();
         });
       };
 
-      this.sumTask = function(taskName, startRange, stopRange) {
+      this.sumTask = function(taskName, startRange, dateType) {
         var taskData = this.getTask(taskName);
         if(taskData === null || !taskData.length) {
           return [ 0 ];
         }
 
-        var ret = [ 0 ];
-        $.each(taskData, function(idx, el){
+        var stopRange  = moment().endOf(dateType).format("X");
+
+        /* Save resources - Can't have done tasks in the future */
+        if(stopRange > moment().format('X')) {
+          stopRange = moment().format('X');
+        }
+
+        var dateRanges = [ parseInt(startRange, 10) ];
+
+        switch(dateType) {
+          case 'week':
+            var rangePtr = startRange;
+            while(rangePtr < stopRange) {
+              var endOfDay = moment(rangePtr, 'X').add(86400-1, 'second').format('X');
+              dateRanges.push(endOfDay++);
+
+              if(endOfDay < stopRange) {
+                dateRanges.push(endOfDay);
+              }
+
+              rangePtr = endOfDay;
+            }
+        }
+
+        var totalTime = 0;
+        var sumTimes  = [];
+        for(var j=0; j<taskData.length; j++) {
+          var el = taskData[j];
+
           /* Not in current date range, not interested */
-          if(el[0] < startRange && el[1] > stopRange) {
+          if(el[0] < $(dateRanges).first() && el[1] > $(dateRanges).last() ) {
             return;
           }
 
-          /* cap the start/stop to ranges */
-          if(el[0]< startRange) {
-            el[0] = startRange;
+          if(el[0] < $(dateRanges).first()) {
+            el[0] = $(dateRanges).first();
           }
 
-          if(el[1] > stopRange) {
-            el[1] = stopRange;
+          if(el[1] < $(dateRanges).last()) {
+            el[1] = $(dateRanges).last();
           }
 
-          var timeOnTask = el[1] - el[0];
-          ret[0] += timeOnTask;
-          ret.push([el[0], el[1]]);
-        });
 
-        return ret;
+          for(var i=0; i<dateRanges.length; i+=2) {
+            var startTime = el[0],
+              stopTime = el[1],
+                       rangeStart = dateRanges[i],
+                       rangeStop = dateRanges[i+1];
+
+            /*
+               console.log('rangeStart = %o, rangeStop = %o', rangeStart, rangeStop);
+               console.log('startTime = %o, stopTime = %o', startTime, stopTime);
+             */
+
+            if(rangeStart > startTime) {
+              /* console.log('move on'); */
+              break;
+            }
+
+            if(rangeStop <= startTime) {
+              /* console.log('check next range'); */
+              continue;
+            }
+
+            if(stopTime > rangeStop) {
+              taskData.splice(j+1, 0, [ rangeStop, stopTime ]);
+              stopTime = rangeStop;
+            }
+
+            var timeOnTask = stopTime - startTime;
+            totalTime += timeOnTask;
+
+            var idx = (i/2)-1;
+
+            if(typeof(sumTimes[idx]) === 'undefined') {
+              sumTimes[idx] = { sum : 0, events : [] };
+            }
+
+            sumTimes[idx].sum += timeOnTask;
+            sumTimes[idx].events.push([ el[0], el[1] ]);
+          }
+        }
+
+        return [ totalTime, sumTimes ];
       };
 
       this.storeTask = function(taskName, start, stop) {
@@ -174,6 +274,14 @@ jQuery.noConflict();
       this.ANIMATE_CLASS = 'trkindicator-animate';
       this.isRunning = 0;
 
+      this.toggle = function(taskMan) {
+        if(this.isRunning) {
+          this.stop(taskMan);
+        } else {
+          this.start();
+        }
+      };
+
       this.start = function() {
         if(this.isRunning) {
           return;
@@ -198,6 +306,7 @@ jQuery.noConflict();
 
         var stopTime = Math.floor(new Date().getTime() / 1000); /* Use seconds */
         taskMan.completeTask(this.startTime, stopTime);
+        taskMan.sumTasks();
       };
 
       this.updateTime = function() {
@@ -272,13 +381,15 @@ jQuery.noConflict();
       $('.trktimer').on('click', '*', function(ev) {
         ev.preventDefault();
         ev.stopPropagation();
-        timer.toggle();
+        timer.toggle(taskMan);
       });
 
       $('.trktimerstart').click(function(ev) {
         ev.preventDefault();
         ev.stopPropagation();
-        timer.start();
+        if($('.trkcurtask').val() !== '#new') {
+          timer.start();
+        }
       });
 
       $('.trktimerstop').click(function(ev) {

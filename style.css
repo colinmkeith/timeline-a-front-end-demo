@@ -152,6 +152,10 @@ dl code {
   background-color: #e6e6e6;
 }
 
+.trktbl tr :nth-child(2) {
+  text-align: right;
+}
+
 /* Weekend */
 .trktbl tr :nth-child(8),
 .trktbl tr :nth-child(9) {
