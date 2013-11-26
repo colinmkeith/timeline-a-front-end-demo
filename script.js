@@ -518,8 +518,7 @@ jQuery.noConflict();
         }
       });
 
-      store.remove('tour_current_step');
-      var tour = new Tour({ debug : true });
+      var tour = new Tour();
 
       /* It is goTo() in newer versions */
       if(typeof(tour.goTo) === 'undefined') {
