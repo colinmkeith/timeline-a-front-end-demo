@@ -11,5 +11,6 @@
   <!-- Bootstrap core CSS -->
   <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/css/bootstrap-theme.min.css" rel="stylesheet">
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.6.1/css/bootstrap-tour.min.css" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css" />

@@ -306,3 +306,14 @@ dl code {
   cursor: not-allowed;
   opacity: 0.65;
 }
+
+.tour-tour .btn-group .btn {
+  display: none;
+}
+
+/* above modal */
+.tour-tour {
+  z-index: 2000;
+}
+
+

@@ -224,6 +224,9 @@ jQuery.noConflict();
           $('.trkblankrow').show();
         } else {
           $('.trkblankrow').hide();
+          $('.trktimerstart').removeClass('disabled')
+            .removeAttr('disabled')
+            .removeAttr('title');
         }
 
         this.addNewRow(taskName);
@@ -454,11 +457,16 @@ jQuery.noConflict();
       $('.trktimerstart').click(function(ev) {
         ev.preventDefault();
         ev.stopPropagation();
+
         if($('.trkcurtask').val() === '#new') {
           addOrSelectTaskToolTip();
           return;
         }
         timer.start();
+
+        if(tour._current === 4) {
+          setTimeout(function() { tour.next(); }, 1000)
+        }
       });
 
       $('.trktimerstop').click(function(ev) {
@@ -476,6 +484,17 @@ jQuery.noConflict();
         $('#trknewtask').val('');
 
         $('.trknewtaskgroup').hide();
+
+        if(tour._current === 1) {
+          tour.next();
+          $('#step-1').remove();
+        }
+      });
+
+      $('#showtimer').click(function(ev) {
+        if(tour._current === 0) {
+          setTimeout(function() { tour.next(); }, 600);
+        }
       });
 
       /* Helper to make Timer prompt for tasks when first started */
@@ -491,6 +510,100 @@ jQuery.noConflict();
           $('.trknewtaskgroup').hide();
         }
       });
+
+      store.remove('tour_current_step');
+      var tour = new Tour({ debug : true });
+
+      /* It is goTo() in newer versions */
+      if(typeof(tour.goTo) === 'undefined') {
+        tour.goTo = tour.goto;
+      }
+
+      tour.addSteps([
+        {
+          element   : '#showtimer',
+          title     : 'Welcome to Task Timer',
+          content   : 'Welcome. To start click the Start Timer button.',
+          placement : 'bottom'
+        },
+
+        {
+          element   : '#trknewtask',
+          title     : 'This is the Task Timer Window',
+          content   : 'Before you can start timing, you need to add a New Task.<p>Enter a new task name, for Example. "<b>Development</b>", then click the "<b>Add New Task</b>" buton.</p>',
+          placement : 'top',
+          prev      : 0,
+          next      : 2,
+          onShown   : function(tour) {
+            if($('.trknewtaskgroup').is("  :visible").length === 0) {
+              $('#trkcurtask option[value="#new"]').prop('selected', true); $('#trkcurtask').click();
+            }
+          }
+        },
+
+        {
+          element   : '.trktask > td:nth-child(1)',
+          title     : 'Task Added',
+          content   : 'The new Task is added to the list of available tasks.',
+          placement : 'bottom',
+          prev      : 1,
+          next      : 3,
+          onShow    : function(tour) {
+            setTimeout(function() { tour.next(); }, 2000);
+          }
+        },
+
+        {
+          element   : '#trkcurtask',
+          title     : 'Task Available',
+          content   : 'The Task is now available for timing.',
+          placement : 'top',
+          onShown   : function(tour) {
+            setTimeout(function() { tour.next(); }, 1000);
+          }
+        },
+
+        {
+          element   : '.trktimerstart',
+          title     : 'Start Timer',
+          content   : 'Click to start timing the task.',
+          placement : 'top'
+        },
+
+        {
+          element   : '.trktimerstop',
+          title     : 'Stop Timer',
+          content   : 'Click to stop timing the task (will automatically stop after 20s)',
+          placement : 'top',
+          onShown   : function(tour) {
+            setTimeout(function() {
+              $('.trktimerstop').click();
+              tour.next();
+            }, 20000);
+          }
+        },
+
+        {
+          element   : '.trktask > td:nth-child(2)',
+          title     : 'Time Recorded',
+          content   : 'The time spent on this Task is added to the timeline breakdown.',
+          placement : 'bottom',
+          onShow    : function(tour) {
+            setTimeout(function() { tour.next(); }, 2000);
+          }
+        },
+
+        {
+          element   : '.modal-header .close',
+          title     : 'Close Window',
+          content   : 'You can now close the window in the upper-right corner, or add a new task, or spend more time on the same task.',
+          placement : 'bottom'
+        }
+
+      ]);
+      tour.start(true);
+      /* DEBUG */
+window.tour = tour;
 
     });
 
