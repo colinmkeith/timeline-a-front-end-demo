@@ -49,8 +49,10 @@
       <div class="modal-footer">
 
         <div>
-          <button type="button" class="btn btn-lg btn-success trktimerstart">Start</button>
-          <button type="button" class="btn btn-lg btn-danger trktimerstop">Stop</button>
+          <button type="button" disabled="disabled"
+                  class="btn btn-lg btn-success trktimerstart disabled">Start</button>
+          <button type="button" disabled="disabled"
+                  class="btn btn-lg btn-danger trktimerstop disabled">Stop</button>
         </div>
 
       </div>

@@ -93,6 +93,7 @@ jQuery.noConflict();
       };
 
       this.sumTask = function(taskName, startRange, dateType) {
+        var i, j;
         var taskData = this.getTask(taskName);
         if(taskData === null || !taskData.length) {
           return [ 0 ];
@@ -120,11 +121,12 @@ jQuery.noConflict();
 
               rangePtr = endOfDay;
             }
+          break;
         }
 
         var totalTime = 0;
         var sumTimes  = [];
-        for(var j=0; j<taskData.length; j++) {
+        for(j=0; j<taskData.length; j++) {
           var el = taskData[j];
 
           /* Not in current date range, not interested */
@@ -141,7 +143,7 @@ jQuery.noConflict();
           }
 
 
-          for(var i=0; i<dateRanges.length; i+=2) {
+          for(i=0; i<dateRanges.length; i+=2) {
             var startTime = el[0],
               stopTime = el[1],
                        rangeStart = dateRanges[i],
@@ -159,7 +161,7 @@ jQuery.noConflict();
 
             if(rangeStop <= startTime) {
               /* console.log('check next range'); */
-              continue;
+              break;
             }
 
             if(stopTime > rangeStop) {
@@ -270,6 +272,25 @@ jQuery.noConflict();
         t.addTask(key, selectEl);
       });
 
+      var numOfTasks = 0;
+      if(typeof(Object.keys) === 'undefined') {
+        var key;
+        for(key in obj) {
+          if(obj.hasOwnProperty(key)) {
+            numOfTasks = 1;
+            break;
+          }
+        }
+      } else {
+        numOfTasks = Object.keys(this.tasks).length;
+      }
+
+      if(numOfTasks) {
+        $('.trktimerstart').removeClass('disabled').removeAttr('disabled');
+      } else {
+        $('.trktimerstart').addClass('disabled').attr('disabled', 'disabled');
+      }
+
       this.sumTasks();
     };
 
@@ -286,14 +307,18 @@ jQuery.noConflict();
       };
 
       this.start = function() {
-        $('.trktimerstart').addClass('disabled');
-        $('.trktimerstop').removeClass('disabled');
+        $('.trktimerstart').addClass('disabled').attr('disabled', 'disabled');
+        $('.trktimerstop').removeClass('disabled').removeAttr('disabled', 'disabled');
+
         if(this.isRunning) {
           return;
         }
 
+        $('.trkcurtask').attr('disabled', 'disabled');
+        $('.modal-header .close').attr('disabled', 'disabled');
+
         this.isRunning = 1;
-        this.startTime = Math.floor(new Date().getTime() / 1000); /* Use seconds */
+        this.startTime = Math.floor(new Date().getTime() / 1000);
         this.timer();
         $('.trkindicator').addClass(this.ANIMATE_CLASS);
         $('.trkdd').text('0d');
@@ -302,16 +327,18 @@ jQuery.noConflict();
       };
 
       this.stop = function(taskMan) {
-        $('.trktimerstart').removeClass('disabled');
-        $('.trktimerstop').addClass('disabled');
+        $('.trktimerstart').removeClass('disabled').removeAttr('disabled', 'disabled');
+        $('.trktimerstop').addClass('disabled').attr('disabled', 'disabled');
         this.isRunning = 0;
         if(this.timeHdl) {
           clearInterval(this.timeHdl);
         }
         $('.trkindicator').css({transform : $('.trkindicator').css('transform') });
         $('.trkindicator').removeClass(this.ANIMATE_CLASS);
+        $('.trkcurtask').removeAttr('disabled');
+        $('.modal-header .close').removeAttr('disabled');
 
-        var stopTime = Math.floor(new Date().getTime() / 1000); /* Use seconds */
+        var stopTime = Math.floor(new Date().getTime() / 1000);
         taskMan.completeTask(this.startTime, stopTime);
         taskMan.sumTasks();
       };
@@ -354,12 +381,12 @@ jQuery.noConflict();
     };
 
     $(document).ready(function($) {
-      var hasTasks = $("select.trkcurtask option:not('.trknewtasks')").length;
       var timer    = new trkTimer();
       var taskMan  = new trkTaskManager(store.get('trktask'));
       /* DEBUG */
       window.taskMan = taskMan;
       window.timer   = timer;
+
       $('.trkcurtask').on('click keyup', function(ev) {
         var targ = ev.target;
         if(targ) {
@@ -388,15 +415,22 @@ jQuery.noConflict();
       $('.trktimer').on('click', '*', function(ev) {
         ev.preventDefault();
         ev.stopPropagation();
+
+        if($('.trkcurtask').val() === '#new') {
+          addOrSelectTaskToolTip();
+          return;
+        }
         timer.toggle(taskMan);
       });
 
       $('.trktimerstart').click(function(ev) {
         ev.preventDefault();
         ev.stopPropagation();
-        if($('.trkcurtask').val() !== '#new') {
-          timer.start();
+        if($('.trkcurtask').val() === '#new') {
+          addOrSelectTaskToolTip();
+          return;
         }
+        timer.start();
       });
 
       $('.trktimerstop').click(function(ev) {
@@ -433,4 +467,4 @@ jQuery.noConflict();
     });
 
   });
-})(jQuery);
+}(jQuery));
