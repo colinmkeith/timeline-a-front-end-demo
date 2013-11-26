@@ -1,0 +1,280 @@
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+/* Wrapper for page content to push down footer */
+.pgwrap {
+  min-height: 100%;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -60px;
+}
+
+/* Set the fixed height of the footer here */
+.ftpush,
+.footer {
+  height: 60px;
+}
+.footer {
+  background-color: #ddd;
+  margin-top: -60px;
+  font-size: small;
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+  .footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+body {
+  background: #ddd url("/images/perldancer-bg.jpg") no-repeat top left;
+}
+
+a  {color: #03c}
+
+.pd-header a  {color: #fff; }
+
+.pd-content {
+  background-color: #fff;
+  border: 3px solid #aaa;
+  border-top: none;
+}
+
+.pd-mainheader, .about, .getting-started {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+
+.pd-mainheader {
+  background:url("/images/perldancer.jpg") no-repeat scroll left top transparent;
+  height: 64px;
+  padding: 2px 0 0 70px;
+  margin: 5px 0;
+}
+
+.pd-title {
+  margin: 5px 0;
+  font-size: 28px;
+}
+
+.pd-subtitle {
+  font-size: small;
+  margin: 0;
+}
+
+.pd-subtitle {
+  color: #888;
+}
+
+.pd-app-env dt {
+  font-weight: 400;
+}
+
+dl code {
+  white-space: pre-wrap;
+}
+
+.about-content {
+  border: 1px solid #fc0;
+  color: #333;
+}
+
+.about-content dl {
+  margin: 0 0 5px;
+}
+
+.about-content dt {
+  text-align: left;
+  margin-left: 5px;
+  width: 180px;
+}
+
+.getting-started {
+  border-top: 1px solid #ccc;
+  padding-top: 15px;
+}
+
+
+.pd-navtitle {
+  font-size: 14px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+.pd-callout {
+  background-color: #F4F8FA;
+}
+
+.pd-header .navbar,
+.pd-navbar-collapse,
+.pd-header .navbar-brand {
+  background-color: #2F83BC;
+  color: #fff;
+}
+
+.pd-header {
+  border: 0 solid #005089;
+  border-bottom-width: 3px;
+}
+
+.pd-header .navbar {
+  margin-bottom: 0;
+  border: 0;
+}
+
+.pd-header .dropdown-toggle:hover, .pd-header .open > a, .pd-header .open > a:hover, .pd-header .open > a:focus {
+  background-color: #489CD5;
+}
+
+.pd-tune {
+  margin-left: -20px;
+}
+
+.pdtune-subtitle {
+  font-size: 18px;
+}
+
+.pd-header .nav .caret {
+  border-top-color: #fff;
+  border-bottom-color: #fff;
+}
+
+/* Task/Time */
+.trktbl tr :nth-child(1),
+.trktbl tr :nth-child(2) {
+  background-color: #e6e6e6;
+}
+
+.trktbl tr :nth-child(2) {
+  text-align: right;
+}
+
+/* Weekend */
+.trktbl tr :nth-child(8),
+.trktbl tr :nth-child(9) {
+  background-color: #FCF8E3;
+}
+
+.table > tbody > tr.trkblankrow > td {
+  height: 6em;
+  vertical-align: middle;
+}
+
+.trkcloneable {
+  display: none;
+}
+
+.trkaddrow {
+  margin-bottom: 10px;
+}
+
+.trkss, .trkdd { font-size: 15px; margin: 45px 10px 0 10px; }
+.trkss { margin-left: 0; }
+.trkhm { font-size: 40px; }
+.trktm { float: left; color: #800; }
+
+.trkdd { margin-right: 0; }
+
+.trktimer {
+  width: 180px;
+  margin: auto;
+}
+
+.trkclock {
+  height: 130px;
+  margin-top: 50px;
+  padding: 0;
+  width: 170px;
+}
+
+.trkloop1 {
+  background-color: #000000;
+  border: 1px solid #DDDDDD;
+  border-radius: 110px;
+  height: 180px;
+  width: 180px;
+}
+
+.trkloop2 {
+  background-color: #000;
+  border: 1px solid #DDDDDD;
+  border-radius: 104px;
+  height: 167px;
+  margin-left: 6px;
+  margin-top: 6px;
+  width: 167px;
+}
+
+#timer .modal-dialog {
+  width: 300px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#timer .modal-footer {
+  text-align: center;
+}
+
+
+.trkindicator-animate {
+  animation: trkAnimation 60s 1 linear;
+  -webkit-animation: trkAnimation 60s 1 linear;
+  -moz-animation: trkAnimation 60s 1 linear;
+  -o-animation: trkAnimation 60s 1 linear;
+}
+
+.trkindicator {
+  position: absolute;
+  height: 143px;
+  width: 143px;
+  margin-left: 18px;
+  margin-top: 18px;
+  font-size: 25px;
+  color: #f00;
+  transform: rotate(50deg);
+}
+
+@keyframes trkAnimation {
+  from { transform: rotate(50deg);  }
+  to   { transform: rotate(410deg); }
+}
+
+@-webkit-keyframes trkAnimation {
+  from { -webkit-transform: rotate(50deg); }
+  to { -webkit-transform: rotate(410deg); }
+}
+@-moz-keyframes trkAnimation {
+  from { -moz-transform: rotate(50deg); }
+  to { -moz-transform: rotate(410deg); }
+}
+@-o-keyframes trkAnimation {
+  from { -o-transform: rotate(50deg); }
+  to { -o-transform: rotate(410deg); }
+}
+
+
+.trktaskpick {
+   margin: 20px auto -10px;
+}
+
+.trknewtaskgroup {
+  padding: 0 3px;
+  border: 1px solid #ddd;
+  margin: -16px auto 0;
+}
+
+.trktaskpick .form-group {
+  padding: 0;
+}
+
+.trknewtaskgroup .form-group {
+  margin-bottom: 0;
+}
+
