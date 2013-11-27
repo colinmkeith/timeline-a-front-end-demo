@@ -152,6 +152,10 @@ dl code {
   margin: auto;
 }
 
+.trktbl th {
+  text-align: center;
+}
+
 .trktbl td {
   background-color: #f0f0f0;
 }
@@ -173,7 +177,7 @@ dl code {
   background-color: #e6e6e6;
 }
 
-.trktbl tr :nth-child(2) {
+.trktbl tr td:nth-child(2) {
   text-align: right;
 }
 
@@ -316,4 +320,13 @@ dl code {
   z-index: 2000;
 }
 
+
+.jqstooltip {
+  height: 40px;
+  width: 85px;
+}
+
+.sparkline {
+  padding-left: 5px;
+}
 
