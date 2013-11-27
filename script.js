@@ -104,6 +104,42 @@ jQuery.noConflict();
             t.addNewRow(taskName, summary);
           }
         });
+
+        var totalTime = 0;
+        var taskTimes = [];
+
+        var taskRows = $('.trktask');
+        taskRows.each(function(idx, row) {
+          var cells = $(row).find('td');
+          // var taskName = $(cells[0]).text();
+          var taskTime = $(cells[1]).text() || 0;
+
+          if(taskTime === '0m') {
+            taskTime = 0;
+          } else {
+            var timeparts = taskTime.match(/^([0-9.]+)([dhms])$/);
+            if(timeparts.length) {
+              taskTime = timeparts[1] * { d : 86400, h : 3600, m : 60, s : 1 }[timeparts[2]];
+            } else {
+              taskTime = 0;
+            }
+          }
+
+          totalTime += taskTime;
+          taskTimes.push(taskTime);
+        });
+
+        $(taskTimes).each(function(idx, taskTime) {
+           var taskPct  = Math.round(taskTime * 100 / totalTime) || 1;
+           var remainingPct = 100 - taskPct;
+           var cell = $($(taskRows[idx]).find('td')[1]);
+           var spline = $(cell).find('.sparkline');
+           if(spline.length === 0) {
+             spline = $('<span class="sparkline"/>');
+             cell.append(spline);
+           }
+           $(spline).sparkline([taskPct, remainingPct], { type : 'pie' });
+        });
       };
 
       this.sumTask = function(taskName, startRange, dateType) {
@@ -259,9 +295,6 @@ jQuery.noConflict();
         }
 
         var tds = trkClone.find('td');
-        if(typeof(taskName) === 'string') {
-          $(tds[0]).text(taskName).attr('title', taskName);
-        }
 
         if(data.length) {
           $.each([0, 1, 2, 3, 4, 5, 6], function(i) {
@@ -274,6 +307,7 @@ jQuery.noConflict();
         }
 
         if(typeof(taskName) === 'string') {
+          $(tds[0]).text(taskName).attr('title', taskName);
           trkClone.removeClass('trkcloneable')
             .addClass('trktask')
             .data('taskname', taskName);
