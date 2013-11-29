@@ -666,7 +666,7 @@ jQuery.noConflict();
           {
             element   : '.trktimerstop',
             title     : 'Stop Timer',
-            content   : 'Click to stop timing the task.<br/>It will automatically stop after 20s',
+            content   : 'Click to stop timing the task.<br/>(During this tour the timer will automatically stop after 20s)',
             placement : 'top',
             onShown   : function(tour) {
               setTimeout(function() {
